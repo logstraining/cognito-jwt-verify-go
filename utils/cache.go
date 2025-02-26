@@ -16,9 +16,7 @@ func NewCache() *Cache {
 	return &Cache{items: []cacheItem{}}
 }
 
-func (c *Cache) Remove(kid string) {
-	c.mu.Lock()
-	defer c.mu.Unlock()
+func (c *Cache) remove(kid string) {
 
 	for i, item := range c.items {
 		if item.Kid == kid {
@@ -32,7 +30,7 @@ func (c *Cache) Add(kid string, jwk JwkWithKid) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
-	c.Remove(kid)
+	c.remove(kid)
 	c.items = append(c.items, cacheItem{Kid: kid, Jwk: jwk})
 }
 
